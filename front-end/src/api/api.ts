@@ -6,13 +6,9 @@ export interface ApiResponse{
     data:any;
 }
 
-
-
-
-
 export default function api(
     path:string,
-    method:'GET'|'POST'| 'PATCH'|'DELETE',
+    method:'GET'|'POST'| 'PATCH'|'DELETE' | 'PUT',
     body:any)
 {
 
@@ -30,14 +26,9 @@ export default function api(
         }
         axios(requestData)
             .then(res=> {
-                console.log(requestData)
                 return responseHandler(res, resolve);
-                console.log("uso u axios")
             })
             .catch(async err=> {
-                console.log("uso u error")
-                console.log(requestData)
-                console.log(err.response)
                 if(err.response.status===401){
                     console.log("status 401")
                     const newToken=await refreshToken();
@@ -87,7 +78,7 @@ async function responseHandler(
         return resolve(response);
     }
     let response:ApiResponse;
-    if(res.data.statusCode()<0){
+    if(res.data.statusCode<0){
         console.log("status code manji do 0")
         response={
             status:'login',

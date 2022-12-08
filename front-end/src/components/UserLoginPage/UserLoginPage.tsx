@@ -23,14 +23,15 @@ function UserLoginPage (){
             {email,password})
             .then((res:ApiResponse)=>{
                 if(res.status==='error'){
-                    console.log(res.data)
+                    setErrorMessage("Sysrem error...Try again")
                     return;
                 }
-
+               // console.log(res.data.response.data.statusCode)
                 if(res.status==='ok'){
-                    if(res.data.statusCode!==undefined){
+                    if(res.data.errorCode!==undefined){
+                        console.log("Neka greska")
                         let message:any={errorMessage}
-                        switch (res.data.statusCode){
+                        switch (res.data.errorCode){
                             case -3001:message='Bad e-mail!';break;
                             case -3002:message='Bad password';break;
 
@@ -38,6 +39,7 @@ function UserLoginPage (){
                         setErrorMessage(message);
                         return;
                     }
+
                     saveToken(res.data.token);
                     saveRefreshToken(res.data.refreshToken)
 
@@ -51,9 +53,6 @@ function UserLoginPage (){
             });
 
     }
-
-
-
 
     return(
 

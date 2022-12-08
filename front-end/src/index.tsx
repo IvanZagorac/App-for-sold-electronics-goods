@@ -13,6 +13,7 @@ import {HashRouter, Routes, Route, Link, BrowserRouter} from "react-router-dom";
 import ContactPage from "./components/ContactPage/ContactPage";
 import UserLoginPage from "./components/UserLoginPage/UserLoginPage";
 import CategoryPage from "./components/CategoryPage/CategoryPage";
+import UserRegistrationPage from "./components/UserRegistrationPage/UserRegistrationPage";
 
 
 /*const menuItems=[
@@ -32,11 +33,13 @@ root.render(
               <Link to="/">Home</Link>
               <Link to="/contact/">Contact</Link>
               <Link to="/auth/user/login/">Log In</Link>
+              <Link to="/auth/user/register/">Register</Link>
               <Link to="/category/1/">Cat1</Link>
           </nav>
           <Routes>
               <Route path="/" element={<HomePage/>}/>
               <Route path="/contact/" element={<ContactPage/>}/>
+              <Route path="/auth/user/register" element={<UserRegistrationPage/>}/>
               <Route path="/auth/user/login/" element={<UserLoginPage/>}/>
               <Route path="/category/:cId/" element={<CategoryPage/>}/>
           </Routes>
