@@ -832,10 +832,113 @@
 					]
 				},
 				{
-					"name": "delete a single article_photo",
+					"name": "get many articles",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/article/?filter=categoryId| |$eq| | 2&filter=articlePrice.price| |$gt| | 200",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								""
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "categoryId| |$eq| | 2"
+								},
+								{
+									"key": "filter",
+									"value": "articlePrice.price| |$gt| | 200"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get a single article",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/article/1/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"article",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "928"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3a0-BK8Ro65J9THZGapH0qXY2WP1Z58\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 09 Nov 2022 14:32:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"articleId\": 1,\n    \"name\": \"HD512\",\n    \"categoryId\": 1,\n    \"excerpt\": \"Kratak opis\",\n    \"description\": \"Detaljan opis\\r\\n\",\n    \"status\": \"available\",\n    \"isPromoted\": 1,\n    \"createdAt\": \"2022-11-07T22:44:39.000Z\",\n    \"category\": {\n        \"categoryId\": 1,\n        \"name\": \"PC\",\n        \"imagePath\": \"nuzno/slika.jpg\",\n        \"parentCategoryId\": null\n    },\n    \"photos\": [\n        {\n            \"photoId\": 1,\n            \"articleId\": 1,\n            \"imagePath\": \"images/1/front.jpg\"\n        },\n        {\n            \"photoId\": 2,\n            \"articleId\": 1,\n            \"imagePath\": \"images/1/label.jpg\"\n        },\n        {\n            \"photoId\": 3,\n            \"articleId\": 1,\n            \"imagePath\": \"2022119-1846013197-images.jpg\"\n        },\n        {\n            \"photoId\": 4,\n            \"articleId\": 1,\n            \"imagePath\": \"2022119-3165407725-IMG_2526-210x210.jpg\"\n        }\n    ],\n    \"articlePrices\": [\n        {\n            \"articlePriceId\": 1,\n            \"articleId\": 1,\n            \"price\": \"45.00\",\n            \"createdAt\": \"2022-11-08T10:49:00.000Z\"\n        }\n    ],\n    \"articleFeatures\": [\n        {\n            \"articleFeatureId\": 1,\n            \"articleId\": 1,\n            \"featureId\": 1,\n            \"value\": \"512GB\"\n        },\n        {\n            \"articleFeatureId\": 2,\n            \"articleId\": 1,\n            \"featureId\": 2,\n            \"value\": \"Sata3\"\n        }\n    ],\n    \"features\": [\n        {\n            \"featureId\": 1,\n            \"name\": \"Kapacitet\",\n            \"categoryId\": 3\n        },\n        {\n            \"featureId\": 2,\n            \"name\": \"Tip\",\n            \"categoryId\": 3\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "delete a single article_photo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/article/1/deletePhoto/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"1",
+								"deletePhoto",
+								"3"
+							]
+						}
 					},
 					"response": []
 				},
@@ -966,6 +1069,103 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "search articles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/article/search/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"article",
+								"search",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "search articles",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"categoryId\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/article/search/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"article",
+										"search",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "201"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c9-0426SlS+1vM2iHS+EvPMWWoo8aI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Nov 2022 14:39:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"articleId\": 4,\n        \"name\": \"Acme Laptop 3344\",\n        \"categoryId\": 2,\n        \"excerpt\": \"Dobar laptop za male novce\",\n        \"description\": \"grgrgrgrgrgr\",\n        \"status\": \"available\",\n        \"isPromoted\": 0,\n        \"createdAt\": \"2022-11-21T10:15:04.000Z\"\n    }\n]"
+						}
+					]
 				}
 			],
 			"event": [
@@ -1193,11 +1393,11 @@
 				{
 					"name": "register new account",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"test@gmail.com\",\r\n    \"password\":\"pass\",\r\n    \"forename\":\"Ivo\",\r\n    \"surname\":\"Ivic\",\r\n    \"phoneNumber\":\"+385996673196\",\r\n    \"postalAdress\":\"Nepoznata adresa 123\"\r\n}",
+							"raw": "{\r\n    \"email\":\"ivek1@gmail.com\",\r\n    \"password\":\"pass12345\",\r\n    \"forename\":\"Rokgrei123\",\r\n    \"surname\":\"Roiegrec123\",\r\n    \"phone\":\"+35996673153\",\r\n    \"postalAdress\":\"Postanskaadresa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1351,6 +1551,14 @@
 							"body": "{\n    \"status\": \"error\",\n    \"errorCode\": -6001,\n    \"messages\": \"User acc cant be created\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Refresh user token",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -1537,8 +1745,30 @@
 				{
 					"name": "add a new feature",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Radni napon\",\r\n    \"categoryId\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/feature/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"feature",
+								""
+							]
+						}
 					},
 					"response": [
 						{
@@ -1628,6 +1858,355 @@
 					}
 				}
 			]
+		},
+		{
+			"name": "Cart and Order",
+			"item": [
+				{
+					"name": "get current Cart details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get current Cart details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/user/cart/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"cart",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "368"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"170-LHU9fCD2iGcnKsxgz/BXjta2ryU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 17 Nov 2022 10:45:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"cartId\": 1,\n    \"userId\": 1,\n    \"createdAt\": \"2022-11-17T10:44:55.000Z\",\n    \"user\": {\n        \"userId\": 1,\n        \"email\": \"test@gmail.com\",\n        \"passwordHash\": \"5B722B307FCE6C944905D132691D5E4A2214B7FE92B738920EB3FCE3A90420A19511C3010A0E7712B054DAEF5B57BAD59ECBD93B3280F210578F547F4AED4D25\",\n        \"name\": \"Ivo\",\n        \"surname\": \"Ivic\",\n        \"phoneNumber\": \"+385996673196\",\n        \"postalAdress\": \"Nepoznata adresa123\"\n    },\n    \"cartArticles\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "add article to the cur Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"articleId\":1,\r\n    \"quantity\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/addToCart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								"addToCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit art quantity in curr Cart",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"articleId\":1,\r\n    \"quantity\":5\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make order for cur Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/cart/makeOrder/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"cart",
+								"makeOrder",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "get order infor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get order infor",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/orderAdmin/1/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"orderAdmin",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "913"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"391-3NsNWQ/aUOR2n6LnqoKV2gdf0i4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Nov 2022 23:17:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"createdAt\": \"2022-11-17T10:52:16.000Z\",\n    \"cartId\": 1,\n    \"status\": \"send\",\n    \"cart\": {\n        \"cartId\": 1,\n        \"userId\": 1,\n        \"createdAt\": \"2022-11-17T10:44:55.000Z\",\n        \"user\": {\n            \"userId\": 1,\n            \"email\": \"test@gmail.com\",\n            \"passwordHash\": \"5B722B307FCE6C944905D132691D5E4A2214B7FE92B738920EB3FCE3A90420A19511C3010A0E7712B054DAEF5B57BAD59ECBD93B3280F210578F547F4AED4D25\",\n            \"name\": \"Ivo\",\n            \"surname\": \"Ivic\",\n            \"phoneNumber\": \"+385996673196\",\n            \"postalAdress\": \"Nepoznata adresa123\"\n        },\n        \"cartArticles\": [\n            {\n                \"cartArticleId\": 1,\n                \"cartId\": 1,\n                \"articleId\": 1,\n                \"quantity\": 2,\n                \"article\": {\n                    \"articleId\": 1,\n                    \"name\": \"Acme HD1 1024GB\",\n                    \"categoryId\": 1,\n                    \"excerpt\": \"Kratak opis\",\n                    \"description\": \"Detaljan opis\\r\\n\",\n                    \"status\": \"available\",\n                    \"isPromoted\": 1,\n                    \"createdAt\": \"2022-11-07T22:44:39.000Z\",\n                    \"category\": {\n                        \"categoryId\": 1,\n                        \"name\": \"PC\",\n                        \"imagePath\": \"nuzno/slika.jpg\",\n                        \"parentCategoryId\": null\n                    },\n                    \"articlePrices\": [\n                        {\n                            \"articlePriceId\": 1,\n                            \"articleId\": 1,\n                            \"price\": \"45.00\",\n                            \"createdAt\": \"2022-11-08T10:49:00.000Z\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "edit status for order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newStatus\":\"accepted\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/orderAdmin/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"orderAdmin",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "edit status for order",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newStatus\":\"accepted\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/orderAdmin/1/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"orderAdmin",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "917"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"395-A1bGGbMnxxwj7djdo9yp1GClWX4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Nov 2022 23:19:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"orderId\": 1,\n    \"createdAt\": \"2022-11-17T10:52:16.000Z\",\n    \"cartId\": 1,\n    \"status\": \"accepted\",\n    \"cart\": {\n        \"cartId\": 1,\n        \"userId\": 1,\n        \"createdAt\": \"2022-11-17T10:44:55.000Z\",\n        \"user\": {\n            \"userId\": 1,\n            \"email\": \"test@gmail.com\",\n            \"passwordHash\": \"5B722B307FCE6C944905D132691D5E4A2214B7FE92B738920EB3FCE3A90420A19511C3010A0E7712B054DAEF5B57BAD59ECBD93B3280F210578F547F4AED4D25\",\n            \"name\": \"Ivo\",\n            \"surname\": \"Ivic\",\n            \"phoneNumber\": \"+385996673196\",\n            \"postalAdress\": \"Nepoznata adresa123\"\n        },\n        \"cartArticles\": [\n            {\n                \"cartArticleId\": 1,\n                \"cartId\": 1,\n                \"articleId\": 1,\n                \"quantity\": 2,\n                \"article\": {\n                    \"articleId\": 1,\n                    \"name\": \"Acme HD1 1024GB\",\n                    \"categoryId\": 1,\n                    \"excerpt\": \"Kratak opis\",\n                    \"description\": \"Detaljan opis\\r\\n\",\n                    \"status\": \"available\",\n                    \"isPromoted\": 1,\n                    \"createdAt\": \"2022-11-07T22:44:39.000Z\",\n                    \"category\": {\n                        \"categoryId\": 1,\n                        \"name\": \"PC\",\n                        \"imagePath\": \"nuzno/slika.jpg\",\n                        \"parentCategoryId\": null\n                    },\n                    \"articlePrices\": [\n                        {\n                            \"articlePriceId\": 1,\n                            \"articleId\": 1,\n                            \"price\": \"45.00\",\n                            \"createdAt\": \"2022-11-08T10:49:00.000Z\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
 		}
 	],
 	"auth": {
@@ -1635,7 +2214,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImFkbWluaXN0cmF0b3JJZCI6NiwiaWRlbnRpdHkiOiJhZG1pbjEiLCJleHQiOjE2Njk4Mjk3NDAuMTUxLCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yOS4yIiwiaWF0IjoxNjY4NjIwMTQwfQ.7944SCuY7qnlkGWXvFs6kxEdJ7Dg66Edme_n_mBB6sw",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImFkbWluaXN0cmF0b3JJZCI6NiwiaWRlbnRpdHkiOiJhZG1pbjEiLCJleHQiOjE2NzAzNjg2NDQuMDU4LCJpcCI6Ijo6MSIsInVhIjoiUG9zdG1hblJ1bnRpbWUvNy4yOS4yIiwiaWF0IjoxNjY5MTU5MDQ0fQ.QKJ4J63ZdjB-0RewZOao4wyZYK_fC9g2UQmX7TRyG0k",
 				"type": "string"
 			}
 		]
