@@ -41,7 +41,7 @@ export class ArticleService extends TypeOrmCrudService<Article>{
     await this.articlePrice.save(newArticlePrice);
 
     for(let feature of data.features){
-      let newArticleFeature=new ArticleFeature();
+      let newArticleFeature:ArticleFeature=new ArticleFeature();
       newArticleFeature.articleId=savedArticle.articleId;
       newArticleFeature.featureId=feature.featureId;
       newArticleFeature.value=feature.value;
@@ -119,14 +119,15 @@ export class ArticleService extends TypeOrmCrudService<Article>{
       );
   }
 
-  async search(data:ArticleSearchDto):Promise<Article[]>{
+  async search(data:ArticleSearchDto):Promise<Article[] | ApiResponse>{
       const builder=await this.article.createQueryBuilder("article");
 
       builder.innerJoinAndSelect("article.articlePrices"
         ,"ap",
-        "ap.createdAt=(SELECT ap.created_at FROM article_price as ap WHERE ap.article_id=article.article_id ORDER BY ap.createdAt DESC LIMIT1)")
+        "ap.createdAt = (SELECT MAX(ap.created_at) FROM article_price AS ap WHERE ap.article_id = article.article_id)")
       builder.leftJoinAndSelect("article.articleFeatures","af")
-
+      builder.leftJoinAndSelect("article.features", "features");
+      builder.leftJoinAndSelect("article.photos", "photos");
       builder.where('article.categoryId= :id',{id:data.categoryId})
 
       if(data.keywords && data.keywords.length>0){
@@ -135,6 +136,10 @@ export class ArticleService extends TypeOrmCrudService<Article>{
            article.excerpt LIKE:kw OR
            article.description LIKE:kw)
               `,{kw: '%'+ data.keywords.trim() + '%'});
+      }
+
+      if(data.keywords.length===0){
+        return new ApiResponse("error",-100001,"Keywords must not be empty")
       }
 
       if(data.priceMin && typeof data.priceMin==='number'){
@@ -147,10 +152,11 @@ export class ArticleService extends TypeOrmCrudService<Article>{
 
       if(data.features&& data.features.length>0){
         for(let feature of data.features){
-          builder.andWhere('af.featureId=:fId AND af.value IN (:fVals)',
+
+          builder.andWhere('af.featureId=:featureId AND af.value IN (:featureValues)',
             {
-              fId:feature.featureId,
-              fVals:feature.values,
+              featureId:feature.featureId,
+              featureValues:feature.values,
             })
         }
       }
@@ -188,17 +194,15 @@ export class ArticleService extends TypeOrmCrudService<Article>{
       builder.skip(page*perPage);
       builder.take(perPage);
 
-      let articleIds= await (await builder.getMany()).map(article=>article.articleId);
+      let articles=await  builder.getMany();
 
-      return await this.article.find({
-        where:{articleId: In(articleIds)},
-        relations: [
-          "category",
-          "articleFeatures",
-          "features",
-          "articlePrices",
-          "photos"
-        ]
-      })
+      if(articles.length===0){
+        return new ApiResponse("ok",0,"There are no articles found")
+      }
+
+      return articles;
+
+
+
   }
 }

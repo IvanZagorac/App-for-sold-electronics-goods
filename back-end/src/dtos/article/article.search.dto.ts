@@ -2,8 +2,7 @@ import * as Validator from 'class-validator';
 import { ArticleSearchFeatureComponents } from "./article.search.feature.components";
 export class ArticleSearchDto{
   @Validator.IsOptional()
-  @Validator.IsNotEmpty()
-  @Validator.Length(2,128)
+  @Validator.Length(0,128)
     keywords:string;
 
   @Validator.IsNotEmpty()
