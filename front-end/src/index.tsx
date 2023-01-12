@@ -29,12 +29,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <BrowserRouter>
-          <nav>
-              <Link to="/">Home</Link>
-              <Link to="/contact/">Contact</Link>
-              <Link to="/auth/user/login/">Log In</Link>
-              <Link to="/auth/user/register/">Register</Link>
-              <Link to="/category/1/">Cat1</Link>
+          <nav className="navigacija">
+              <Link className="linkovi" to="/">Home</Link>
+              <Link className="linkovi" to="/contact/">Contact</Link>
+              <Link className="linkovi" to="/auth/user/login/">Log In</Link>
+              <Link className="linkovi" to="/auth/user/register/">Register</Link>
+              <Link className="linkovi" to="/category/1/">Cat1</Link>
           </nav>
           <Routes>
               <Route path="/" element={<HomePage/>}/>

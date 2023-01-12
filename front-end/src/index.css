@@ -1,0 +1,16 @@
+.navigacija{
+    width:100%;
+    margin-top: 10px;
+    margin-bottom: 60px;
+    margin-left: 60px;
+}
+
+.linkovi{
+    text-decoration: none;
+    width: 18%;
+    padding: 20px;
+
+}
+.gumb{
+    border: white;
+}

@@ -25,7 +25,7 @@ function UserRegistrationPage (){
                 forename,
                 surname,
                 phone,
-                address}
+                postalAdress:address}
         )
             .then((res:ApiResponse)=>{
                 console.log({address})
@@ -52,7 +52,6 @@ function UserRegistrationPage (){
 
     function renderForm(){
         return(
-            <>
                 <Container>
                     <Form>
                         <Row>
@@ -139,7 +138,7 @@ function UserRegistrationPage (){
                     </Form>
                     <Alert variant="danger" className={message ? '' : 'd-none'}>{message}</Alert>
                 </Container>
-            </>
+
         )
     }
 

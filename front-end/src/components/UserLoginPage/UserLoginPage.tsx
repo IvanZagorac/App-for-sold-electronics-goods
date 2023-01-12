@@ -1,4 +1,4 @@
-import { useNavigate, } from "react-router-dom";
+import {useNavigate,} from "react-router-dom";
 import {Alert, Button, Card, Col, Container, Form} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignIn} from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,9 @@ function UserLoginPage (){
     const [isLoggedIn,setIsLoggedIn]=useState<boolean>(false);
     const navigate=useNavigate()
 
+    if(isLoggedIn===true){
+        navigate('/')
+    }
 
     const doLogin=()=>{
         api(
@@ -53,6 +56,8 @@ function UserLoginPage (){
             });
 
     }
+
+
 
     return(
 
@@ -93,9 +98,8 @@ function UserLoginPage (){
                     </Card.Body>
                 </Card>
             </Col>
-
-
         </Container>
+
     )
 
 

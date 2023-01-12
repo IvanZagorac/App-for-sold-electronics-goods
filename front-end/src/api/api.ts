@@ -30,10 +30,7 @@ export default function api(
             })
             .catch(async err=> {
                 if(err.response.status===401){
-                    console.log("status 401")
                     const newToken=await refreshToken();
-                    console.log(newToken)
-
                     if(!newToken){
                         console.log("neema refresha")
                         const response:ApiResponse={
@@ -46,7 +43,6 @@ export default function api(
                     saveToken(newToken);
 
                     requestData.headers!.Authorization=getToken();
-                    console.log(requestData.headers.Authorization=getToken())
 
                     return await repeatRequest(requestData,resolve)
                 }
@@ -86,7 +82,6 @@ async function responseHandler(
         }
 
     }else {
-        console.log("status oke")
         response = {
             status: 'ok',
             data: res.data,
@@ -129,7 +124,6 @@ async function refreshToken():Promise<string|null>{
     const data={
         token:getRefreshToken()
     }
-    console.log(data)
     const refreshTokenData:AxiosRequestConfig= {
         method: 'POST',
         url: apiConfig.API_URL + path,
@@ -146,7 +140,6 @@ async function refreshToken():Promise<string|null>{
         return null;
     }
 
-    console.log(refreshTokenResponse.data.token)
 
     return refreshTokenResponse.data.token
 }
