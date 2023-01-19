@@ -1,5 +1,5 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Card, Col, Container, Form, FormCheck, FormGroup, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormCheck, FormControl, FormGroup, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faListAlt, faSearch} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect, useState} from "react";
@@ -7,6 +7,7 @@ import api, {ApiResponse} from "../../api/api";
 import CategoryType from "../../types/CategoryType";
 import ArticleType from "../../types/ArticleType";
 import {apiConfig} from "../../config/api.config";
+import SingleArticlePreview from "../Article/SingleArticlePreview";
 
 function CategoryPage (){
 
@@ -42,6 +43,7 @@ function CategoryPage (){
 
     let { cId }=useParams();
     const[category,setCategory]=useState<CategoryType>()
+    const[quantity,setQuantity]=useState<number>(1);
     const[articles,setArticles]=useState<ArticleType[]>()
     const[subCategories,setSubCategories]=useState<CategoryType[]>()
     const[message,setMessage]=useState<String>('')
@@ -56,6 +58,11 @@ function CategoryPage (){
 
     useEffect( () => {
         getCategoryData();
+        const alreadyLoaded = localStorage.getItem('alreadyLoaded');
+        if (alreadyLoaded!=="true") {
+            localStorage.setItem('alreadyLoaded', "true");
+            window.location.reload();
+        }
 
     }, []);
 
@@ -123,26 +130,20 @@ function CategoryPage (){
         const featureFilters:any[]=selectedFeatures;
 
         for(const item of selectedFeatures){
-            console.log(item)
             let found=false;
             let foundRef:any=null;
-            console.log(featureFilters)
             for(const featureFilter of featureFilters){
-                console.log(featureFilter)
                 if(featureFilter.featureId===item.featureId){
                     found=true;
                     foundRef=featureFilter;
-                    break;
                 }
                 if(!found){
-                    console.log("!found")
                     featureFilters.push({
                         featureId:item.featureId,
                         value:[item.value],
                     });
                 }else{
-                    console.log("found")
-                    foundRef!.values.push(item.value)
+                    //popraviti
                 }
             }
         }
@@ -159,7 +160,6 @@ function CategoryPage (){
             orderDirection:orderDirection,
         })
             .then((res:ApiResponse)=>{
-                console.log(res.data)
                 if(res.status==='login'){
                     return setIsUserLogin(false);
                 }
@@ -243,33 +243,8 @@ function CategoryPage (){
     }
 
     const singleArticle=(article:ArticleType)=>{
-        return(
-            <Col md="3" sm="6" xs="12">
-                <Card className="mb-3">
-                    <Card.Header>
-                        <img className="w-100" alt={article.name}
-                             src={apiConfig.PHOTO_PATH+article.imageUrl}/>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Title as="p">
-                            <strong>{article.name}</strong>
-                        </Card.Title>
-                        <Card.Text>
-                            {article.excerpt}
-                        </Card.Text>
-                        <Card.Text>
-                            Price:{Number(article.price).toFixed(2)}EUR
-                        </Card.Text>
-                        <button className="gumb" onClick={refreshPage}>
-                            <Link to={`/article/${article.articleId}`}
-                                  className="btn btn-primary btn-block btn-sm">
-                                Open article page
-                            </Link>
-                        </button>
-                    </Card.Body>
-                </Card>
-            </Col>
-        )
+        return(<SingleArticlePreview {...article}/>);
+
     }
 
     const showSubCategories=()=>{
@@ -439,10 +414,10 @@ function CategoryPage (){
             {printOptionalMessage()}
 
             <Row>
-                <Col xs="12" sm="6" md="4" lg="3">
+                <Col xs="12" sm="12" md="3" lg="3">
                     {showFilterForm()}
                 </Col>
-                <Col xs="12" sm="6" md="8" lg="9">
+                <Col xs="12" sm="12" md="9" lg="9">
                     {showArticles()}
                 </Col>
 

@@ -1,15 +1,18 @@
 .navigacija{
     width:100%;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 60px;
     margin-left: 60px;
 }
 
 .linkovi{
     text-decoration: none;
-    width: 18%;
+    width: 12%;
     padding: 20px;
 
+}
+.kosara{
+    padding: 20px;
 }
 .gumb{
     border: white;
