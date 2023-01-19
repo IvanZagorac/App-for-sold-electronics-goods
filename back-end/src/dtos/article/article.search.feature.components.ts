@@ -7,5 +7,5 @@ export class ArticleSearchFeatureComponents{
     @Validator.IsNotEmpty({each:true})
     @Validator.IsString({each:true})
     @Validator.Length(1,255,{each:true})
-    values:string[]
+    value:string[]
 }

@@ -150,13 +150,13 @@ export class ArticleService extends TypeOrmCrudService<Article>{
         builder.andWhere('ap.price<= :max',{max: data.priceMax})
       }
 
+      let nes;
       if(data.features&& data.features.length>0){
         for(let feature of data.features){
-
-          builder.andWhere('af.featureId=:featureId AND af.value IN (:featureValues)',
+          nes=builder.andWhere('af.featureId=:featureId AND af.value IN (:featureValues)',
             {
               featureId:feature.featureId,
-              featureValues:feature.values,
+              featureValues:[feature.value],
             })
         }
       }

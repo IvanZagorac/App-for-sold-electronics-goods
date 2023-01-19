@@ -32,7 +32,6 @@ export class UserService extends TypeOrmCrudService<User>{
       newUser.surname=data.surname;
       newUser.phoneNumber=data.phone
       newUser.postalAdress=data.postalAdress;
-      console.log(newUser)
       try{
         const savedUser=await this.user.save(newUser);
         if(!savedUser){
@@ -47,7 +46,7 @@ export class UserService extends TypeOrmCrudService<User>{
 
     }
 
-  async getById (id) {
+ async getById (id) {
     return await this.user.findOneBy(id);
   }
 

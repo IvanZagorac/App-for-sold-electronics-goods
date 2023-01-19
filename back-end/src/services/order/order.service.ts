@@ -18,7 +18,7 @@ export class OrderService {
   ) {
   }
 
-  async makeOrder(cartId:number):Promise<Order |ApiResponse>{
+  async makeOrder(cartId:number,userId:number):Promise<Order |ApiResponse>{
 
     const order=await this.order.findOne({where:{
       cartId:cartId
@@ -46,6 +46,7 @@ export class OrderService {
       let savedOrder=await this.order.save(newOrder);
 
     cart.createdAt = new Date();
+    cart.userId=userId;
     await this.cart.save(cart);
 
     return await this.getById(savedOrder.orderId);
@@ -63,6 +64,20 @@ export class OrderService {
         "cart.cartArticles.article.articlePrices",
       ]}
     );
+  }
+
+  async getAllByUserId(userId:number){
+
+    return await this.order.find({where:{userId},
+      relations:[
+        "cart",
+        "cart.user",
+        "cart.cartArticles",
+        "cart.cartArticles.article",
+        "cart.cartArticles.article.category",
+        "cart.cartArticles.article.articlePrices",
+      ]
+    });
   }
 
   async changeStatus(orderId:number,newStatus:"accepted"|"rejected"|"pending"|"send"){

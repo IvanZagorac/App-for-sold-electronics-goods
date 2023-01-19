@@ -24,9 +24,12 @@ export class UserCartController{
   private async getActiveCartByUserId(userId:number):Promise<Cart>{
     let cart= await this.cartService.getLastCartByUserId(userId)
 
+    console.log(cart+ " prije")
+
     if(!cart){
       cart=await this.cartService.createNewCartForUser(userId)
     }
+    console.log(cart + " poslije");
 
     return await this.cartService.getById(cart.cartId)
   }
@@ -36,6 +39,7 @@ export class UserCartController{
   @AllowToRolesDescriptor('user')
   async getCurrentCart(@Req()req:Request): Promise<Cart> {
 
+    console.log(req.token.id + " token Id")
     return await this.getActiveCartByUserId(req.token.id)
 
   }
@@ -45,9 +49,23 @@ export class UserCartController{
   @AllowToRolesDescriptor('user')
   async addToCart(@Body() data:AddArticleToCartDto,@Req() req:Request):Promise<Cart>{
 
-    const curCart=await this.getActiveCartByUserId(req.token.id);
+    let curCart=await this.getActiveCartByUserId(req.token.id);
+
+    if(!curCart){
+      curCart=await this.cartService.createNewCartForUser(req.token.id);
+    }
 
     return await this.cartService.addArticleToCart(curCart.cartId,data.articleId,data.quantity);
+
+  }
+
+  @Post('makeCart')
+  @UseGuards(RoleCheckedGuard)
+  @AllowToRolesDescriptor('user')
+  async makeNewCartForUser(@Req() req:Request):Promise<Cart>{
+
+    console.log(req.token.id + " Controller");
+    return await this.cartService.createNewCartForUser(req.token.id);
 
   }
 
@@ -64,7 +82,7 @@ export class UserCartController{
     @AllowToRolesDescriptor('user')
     async addOrder(@Req()req:Request):Promise<Order |ApiResponse> {
       const cart=await this.getActiveCartByUserId(req.token.id);
-      const order=await this.orderService.makeOrder(cart.cartId)
+      const order=await this.orderService.makeOrder(cart.cartId,req.token.id)
 
       if(order instanceof ApiResponse){
         return order
@@ -74,6 +92,14 @@ export class UserCartController{
 
       return order;
 
+    }
+
+
+    @Get('orders')
+    @UseGuards(RoleCheckedGuard)
+    @AllowToRolesDescriptor('user')
+    async getOrders(@Req()req:Request):Promise<Order[]>{
+    return await this.orderService.getAllByUserId(req.token.id);
     }
 
 }

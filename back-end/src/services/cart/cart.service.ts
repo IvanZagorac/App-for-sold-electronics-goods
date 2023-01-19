@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Req } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { Cart } from "../../../entities/Cart";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -7,6 +7,7 @@ import { Article } from "../../../entities/Article";
 import { Order } from "../../../entities/Order";
 import { EditQuantityInCartDto } from "../../dtos/cart/edit.quantity.in.cart.dto";
 import { ApiResponse } from "../../mlnsc/api/response.class";
+import { Request } from "express";
 
 
 @Injectable()
@@ -33,8 +34,6 @@ export class CartService {
         relations:["order"],
       });
 
-      console.log(carts)
-
       if(!carts||carts.length===0){
         return null;
       }
@@ -45,6 +44,8 @@ export class CartService {
         return null
       }
 
+      console.log(lastCart)
+
       return lastCart;
     }
 
@@ -52,6 +53,7 @@ export class CartService {
 
         const newCart:Cart=new Cart();
         newCart.userId=userId;
+        console.log(userId)
 
         return await this.cart.save(newCart);
     }

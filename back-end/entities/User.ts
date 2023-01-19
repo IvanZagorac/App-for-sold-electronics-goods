@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { Cart } from "./Cart";
 import *  as Validator from 'class-validator'
+import { Order } from "./Order";
 
 @Index("Unique", ["email"], { unique: true })
 @Index("phone-un", ["phoneNumber"], { unique: true })
@@ -53,4 +54,7 @@ export class User {
 
   @OneToMany(() => Cart, (cart) => cart.user)
   carts: Cart[];
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }
