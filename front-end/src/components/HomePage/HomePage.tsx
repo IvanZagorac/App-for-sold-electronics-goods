@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Button, Card, Col, Container, Row} from 'react-bootstrap'
-import {faContactCard, faHome} from '@fortawesome/free-solid-svg-icons';
+import { Card, Col, Container, Row} from 'react-bootstrap'
+import { faHome} from '@fortawesome/free-solid-svg-icons';
 import CategoryType from "../../types/CategoryType";
 import {Link, useNavigate} from "react-router-dom";
 import api, {ApiResponse} from "../../api/api";
-
-interface ApiCategoryDto{
-    categoryId:number;
-    name:string;
-}
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
+import ApiCategoryDto from "../../dtos/ApiCategoryDto";
 
 function HomePage() {
     const[isUserLogin,setIsUserLogin]=useState<boolean>(true);
@@ -21,7 +18,7 @@ function HomePage() {
            getCategories();
 
     }, []);
-    if(isUserLogin===false){
+    if(!isUserLogin){
         navigate('auth/user/login')
     }
 
@@ -31,7 +28,7 @@ function HomePage() {
             return{
                 categoryId:category.categoryId,
                 name:category.name,
-                items:[],
+                parentCategoryId:category.parentCategoryId
             };
 
 
@@ -74,6 +71,7 @@ function HomePage() {
 
   return (
       <Container>
+          <RoledMainMenu role="user"/>
           <Card>
               <Card.Body>
                   <Card.Title>

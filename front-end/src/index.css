@@ -5,10 +5,15 @@
     margin-left: 60px;
 }
 
+.disp-flex{
+    display:flex;
+    width: 100%;
+}
+
 .linkovi{
+    width:100%;
     text-decoration: none;
-    width: 12%;
-    padding: 20px;
+    padding: 20px !important;
 
 }
 .kosara{

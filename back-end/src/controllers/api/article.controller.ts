@@ -13,7 +13,7 @@ import {
 import { Crud } from "@nestjsx/crud";
 import { ArticleService } from "../../services/articles/article.service";
 import { Article } from "../../../entities/Article";
-import { AddArticleDto } from "../../dtos/article/add.article.dto";
+import { AddArticleDto } from '../../dtos/article/add.article.dto';
 import { ApiResponse } from "../../mlnsc/api/response.class";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { StorageConfig} from "../../../config/storage.config";
@@ -24,14 +24,14 @@ import * as  filetype2 from "file-type"
 import filetype from 'magic-bytes.js'
 import * as fs from 'fs';
 import * as sharp from 'sharp';
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 import * as os from 'os';
 import extname from "path";
 import { fileTypeFromFile } from "file-type";
 import { EditArticleDto } from "../../dtos/article/edit.article.dto";
 import { RoleCheckedGuard } from "../../mlnsc/role.checker.guard";
 import { AllowToRolesDescriptor } from "../../mlnsc/allow.to.roles.descriptor";
-import { ArticleSearchDto } from "../../dtos/article/article.search.dto";
+import { ArticleSearchDto } from '../../dtos/article/article.search.dto';
 
 @Controller('api/article')
 @Crud({

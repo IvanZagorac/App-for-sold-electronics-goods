@@ -1,12 +1,11 @@
-export default interface ArticleType{
+export default interface ApiArticleDto{
     articleId?:number;
     name?:string;
+    categoryId?:number;
     excerpt?:string;
     description?:string;
-    imageUrl?:string;
-    price?:number;
-    status?:"available"| " visible" |"hidden";
     isPromoted?:number;
+    status?:"available"| " visible" |"hidden";
     articleFeatures?:{
         articleFeatureId:number;
         featureId:number;
@@ -16,15 +15,14 @@ export default interface ArticleType{
         featureId:number;
         name:string;
     }[];
-    articlePrices?:{
+    articlePrices:{
         articlePriceId:number;
         price:number;
     }[]
-    photos?:{
-        photoId:number;
-        imagePath:string;
+    photos:{
+       photoId:number;
+       imagePath:string;
     }[];
-    categoryId?:number;
     category?:{
         categoryId:number;
         name:string;

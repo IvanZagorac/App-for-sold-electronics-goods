@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignIn} from "@fortawesome/free-solid-svg-icons";
 import React,{useState} from "react";
 import api, {ApiResponse, saveRefreshToken, saveToken} from "../../api/api";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 
 
@@ -43,8 +44,8 @@ function UserLoginPage (){
                         return;
                     }
 
-                    saveToken(res.data.token);
-                    saveRefreshToken(res.data.refreshToken)
+                    saveToken('user',res.data.token);
+                    saveRefreshToken('user',res.data.refreshToken)
 
                     setIsLoggedIn(true);
 
@@ -62,6 +63,7 @@ function UserLoginPage (){
     return(
 
         <Container>
+            <RoledMainMenu role="visitor"/>
             <Col md={{span:6,offset:3}}>
                 <Card>
                     <Card.Body>

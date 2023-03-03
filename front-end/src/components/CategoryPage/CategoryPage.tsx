@@ -1,13 +1,13 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button, Card, Col, Container, Form, FormCheck, FormControl, FormGroup, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormCheck, FormGroup, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faListAlt, faSearch} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect, useState} from "react";
 import api, {ApiResponse} from "../../api/api";
 import CategoryType from "../../types/CategoryType";
 import ArticleType from "../../types/ArticleType";
-import {apiConfig} from "../../config/api.config";
 import SingleArticlePreview from "../Article/SingleArticlePreview";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 function CategoryPage (){
 
@@ -43,7 +43,6 @@ function CategoryPage (){
 
     let { cId }=useParams();
     const[category,setCategory]=useState<CategoryType>()
-    const[quantity,setQuantity]=useState<number>(1);
     const[articles,setArticles]=useState<ArticleType[]>()
     const[subCategories,setSubCategories]=useState<CategoryType[]>()
     const[message,setMessage]=useState<String>('')
@@ -142,9 +141,9 @@ function CategoryPage (){
                         featureId:item.featureId,
                         value:[item.value],
                     });
-                }else{
+                }/*else{
                     //popraviti
-                }
+                }*/
             }
         }
         console.log(featureFilters)
@@ -178,7 +177,7 @@ function CategoryPage (){
 
                 const articles:ArticleType[]=
                     res.data.map((article:ArticleDto)=>{
-                     const obj:ArticleType={
+                        const obj:ArticleType={
                     articleId:article.articleId,
                     name:article.name,
                     excerpt:article.excerpt,
@@ -395,7 +394,7 @@ function CategoryPage (){
         )
     }
 
-    if(isUserLogin===false){
+    if(!isUserLogin){
         navigate('auth/user/login')
     }
 
@@ -403,6 +402,7 @@ function CategoryPage (){
 
     return(
 <Container>
+    <RoledMainMenu role="user"/>
     <Card>
         <Card.Body>
             <Card.Title>

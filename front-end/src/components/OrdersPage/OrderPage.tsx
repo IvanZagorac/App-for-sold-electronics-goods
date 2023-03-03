@@ -1,24 +1,22 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {
-    Alert, Button,
+    Button,
     Card,
     Container,
-    FormControl,
     Modal,
     ModalBody,
-    ModalFooter,
     ModalHeader,
     ModalTitle,
     Table
 } from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBox, faBoxOpen, faContactCard, faMinusSquare} from "@fortawesome/free-solid-svg-icons";
+import {faBox, faBoxOpen} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect, useState} from "react";
 import OrdersType from "../../types/OrdersType";
 import api, {ApiResponse} from "../../api/api";
 import CartType from "../../types/CartType";
-import ArticleType from "../../types/ArticleType";
 import ArticleForOrderType from "../../types/ArticleForOrderType";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 interface OrderDto{
     orderId:number;
@@ -54,7 +52,7 @@ interface OrderDto{
 }
 
 function OrdersPage (){
-    const[isLoggedIn,setIsLoggedIn]=useState<boolean>(true)
+    const[isLoggedIn]=useState<boolean>(true)
     const[orders,setOrders]=useState<OrdersType[]>();
     const [cart,setCart]=useState<CartType>();
     const [cartVisible,setCartVisible]=useState<boolean>(false);
@@ -180,6 +178,7 @@ function OrdersPage (){
 
     return(
         <Container>
+            <RoledMainMenu role="user"/>
             <Card>
                 <Card.Body>
                     <Card.Title>

@@ -3,11 +3,13 @@ import {Card, Container} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faContactCard} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 function ContactPage (){
 
     return(
         <Container>
+            <RoledMainMenu role="user"/>
             <Card>
                 <Card.Body>
                     <Card.Title>

@@ -8,23 +8,21 @@ import 'jquery/dist/jquery.js';
 import 'popper.js/dist/popper.js'
 import 'bootstrap/dist/js/bootstrap.min.js';
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css'
-//import {MainMenu, MainMenuItem} from "./components/MainMenu/MainMenu";
-import {HashRouter, Routes, Route, Link, BrowserRouter} from "react-router-dom";
+import { Routes, Route, BrowserRouter} from "react-router-dom";
 import ContactPage from "./components/ContactPage/ContactPage";
 import UserLoginPage from "./components/UserLoginPage/UserLoginPage";
 import CategoryPage from "./components/CategoryPage/CategoryPage";
 import UserRegistrationPage from "./components/UserRegistrationPage/UserRegistrationPage";
-import Cart from "./components/Cart/Cart";
-import {Col, Row} from "react-bootstrap";
 import OrdersPage from "./components/OrdersPage/OrderPage";
+import AdministratorLoginPage from "./components/AdministratorLoginPage/AdministratorLoginPage";
+import AdministratorDashboard from "./components/AdministratorDashboard/AdministratorDashboard";
+import AdministratorDashboardCategory from "./components/AdministratorDashboardCategory/AdministratorDashboardCategory";
+import AdministratorDashboardFeature from "./components/AdministratorDashboardFeature/AdministratorDashboardFeature";
+import AdministratorDashboardArticle from "./components/AdministratorDashboardArticle/AdministratorDashboardArticle";
+import AdministratorDashboardPhoto from "./components/AdministratorDashboardPhoto/AdministratorDashboardPhoto";
 
 
-/*const menuItems=[
-    new MainMenuItem("Home","/"),
-    new MainMenuItem("Contact","/contact/"),
-    new MainMenuItem("Log In","/user/login/"),
-    new MainMenuItem("Cat","/category/1/"),
-]*/
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -32,22 +30,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <BrowserRouter>
-          <Row>
-              <Col xs="9" sm="9" md="9" lg="9">
-                  <nav className="navigacija">
-                      <Link className="linkovi" to="/">Home</Link>
-                      <Link className="linkovi" to="/contact/">Contact</Link>
-                      <Link className="linkovi" to="/auth/user/login/">Log In</Link>
-                      <Link className="linkovi" to="/auth/user/register/">Register</Link>
-                      <Link className="linkovi" to="/user/order">Orders</Link>
-
-                  </nav>
-              </Col>
-              <Col xs="3" sm="3" md="3" lg="3">
-                  <Cart></Cart>
-              </Col>
-          </Row>
-
           <Routes>
               <Route path="/" element={<HomePage/>}/>
               <Route path="/contact/" element={<ContactPage/>}/>
@@ -55,6 +37,12 @@ root.render(
               <Route path="/auth/user/login/" element={<UserLoginPage/>}/>
               <Route path="/category/:cId/" element={<CategoryPage/>}/>
               <Route path="/user/order" element={<OrdersPage/>}/>
+              <Route path="/administrator/login" element={<AdministratorLoginPage/>}/>
+              <Route path="/administrator/dashboard" element={<AdministratorDashboard/>}/>
+              <Route path="/administrator/dashboard/category" element={<AdministratorDashboardCategory/>}/>
+              <Route path="/administrator/dashboard/feature/:cId" element={<AdministratorDashboardFeature/>}/>
+              <Route path="/administrator/dashboard/article" element={<AdministratorDashboardArticle/>}/>
+              <Route path="/administrator/dashboard/photo/:aId" element={<AdministratorDashboardPhoto/>}/>
           </Routes>
       </BrowserRouter>
   </React.StrictMode>

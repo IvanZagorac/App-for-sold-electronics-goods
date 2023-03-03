@@ -2,8 +2,9 @@ import {Alert, Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import React, {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUserPlus} from "@fortawesome/free-solid-svg-icons";
-import {Link, useNavigate} from "react-router-dom";
-import api, {ApiResponse, saveRefreshToken, saveToken} from "../../api/api";
+import {Link} from "react-router-dom";
+import api, {ApiResponse} from "../../api/api";
+import RoledMainMenu from "../RoledMainMenu/RoledMainMenu";
 
 function UserRegistrationPage (){
     const [email,setEmail]=useState<string>('');
@@ -14,7 +15,6 @@ function UserRegistrationPage (){
     const [address,setAddress]=useState<string>('');
     const [message,setMessage]=useState<string>('');
     const [isRegValid,setIsRegValid]=useState<boolean>(false);
-    const navigate=useNavigate()
 
     const doRegister=()=>{
         api(
@@ -156,6 +156,7 @@ function UserRegistrationPage (){
     return(
 
         <Container>
+            <RoledMainMenu role="visitor"/>
             <Col md={{span:8,offset:2}}>
                 <Card>
                     <Card.Body>
@@ -163,7 +164,7 @@ function UserRegistrationPage (){
                             <FontAwesomeIcon icon={faUserPlus}></FontAwesomeIcon> User Registration
                         </Card.Title>
 
-                        {(isRegValid===false) ? renderForm() : renderRegCompletedMessage()}
+                        {(!isRegValid) ? renderForm() : renderRegCompletedMessage()}
                     </Card.Body>
                 </Card>
             </Col>

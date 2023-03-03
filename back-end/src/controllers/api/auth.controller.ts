@@ -15,6 +15,7 @@ import { JtwRefreshDto } from "../../dtos/auth/jtw.refresh.dto";
 import { RoleCheckedGuard } from "../../mlnsc/role.checker.guard";
 import { AllowToRolesDescriptor } from "../../mlnsc/allow.to.roles.descriptor";
 import { UserRefreshTokenDto } from "../../dtos/auth/user.refresh.token.dto";
+import { AdministratorRefreshTokenDto } from "../../dtos/auth/administrator.refresh.token";
 
 @Controller('auth')
 export class AuthController{
@@ -27,6 +28,7 @@ export class AuthController{
   async doAdministratorLogin(@Body()data:LoginAdministratorDto, @Req() req:Request): Promise<LoginInfoDto|ApiResponse>{
       const administrator=await this.administratorService.getByUsername(data.username);
 
+      console.log(administrator)
       if(administrator==undefined){
          return new Promise(resolve=>{
            resolve(new ApiResponse("error",-3001));
@@ -48,7 +50,8 @@ export class AuthController{
         const jwtData=new JwtDataDto();
         jwtData.role="administrator"
         jwtData.id=administrator.administratorId;
-        jwtData.identity=administrator.username;let sada=new Date();
+        jwtData.identity=administrator.username;
+        let sada=new Date();
         sada.setDate(sada.getDate()+ 14);
         const istekTimestamp=sada.getTime() /1000;
         jwtData.ext=istekTimestamp;
@@ -56,18 +59,100 @@ export class AuthController{
         jwtData.ip=req.ip;
         jwtData.ua=req.headers["user-agent"];
 
+        let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
 
-      let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
+        const jwtRefreshData=new JtwRefreshDto();
+        jwtRefreshData.role=jwtData.role;
+        jwtRefreshData.id=jwtData.id;
+        jwtRefreshData.identity=jwtData.identity;
+        jwtRefreshData.ext=this.getDatePlus(60*60*24*31)
+        jwtRefreshData.ip=jwtData.ip;
+        jwtRefreshData.ua=jwtData.ua;
 
-      const responseObject=new LoginInfoDto(
-        administrator.administratorId,
-        administrator.username,
-        token,
-        "",
-        "",
-      );
+        let refreshToken:string=jwt.sign(jwtRefreshData.toPlainObject(),jwtSecret)
 
-      return new Promise(resolve=>resolve(responseObject));
+        const responseObject=new LoginInfoDto(
+          administrator.administratorId,
+          administrator.username,
+          token,
+          refreshToken,
+          this.getIsoDate(jwtRefreshData.ext)
+        );
+
+        console.log(responseObject)
+
+        await this.administratorService.addToken(
+          administrator.administratorId,
+          refreshToken,
+          this.getDatabaseDateFormat(this.getIsoDate(jwtRefreshData.ext))
+        );
+
+        return new Promise(resolve=>resolve(responseObject));
+
+
+  }
+
+
+  @Post('administrator/refresh')
+  async administratorTokenRefresh(@Req() req:Request,@Body() data:AdministratorRefreshTokenDto):Promise<LoginInfoDto | ApiResponse> {
+
+    const administratorToken=await this.administratorService.getAdministratorToken(data.token);
+
+    if(!administratorToken){
+      return new ApiResponse("error",-10002,"No such refresh Token!");
+
+    }
+
+    if(administratorToken.isValid==0){
+      return new ApiResponse("error",-10002,"Token is no valid");
+    }
+
+    const sada=new Date();
+    const datumIsteka=new Date(administratorToken.expiresAt)
+
+    if(datumIsteka.getTime()<sada.getTime()){
+      return new ApiResponse("error",-10002,"Token has expired");
+    }
+
+    let  jwtRefreshData:JtwRefreshDto;
+    try{
+      jwtRefreshData=jwt.verify(data.token, jwtSecret);
+    } catch(e) {
+      throw new HttpException("Wrong token", HttpStatus.UNAUTHORIZED);
+    }
+    if (!jwtRefreshData) {
+      throw new HttpException("There is no available token", HttpStatus.UNAUTHORIZED);
+
+    }
+
+    if (jwtRefreshData.ua !== req.headers["user-agent"]) {
+      throw  new HttpException("Wrong user agent from token", HttpStatus.UNAUTHORIZED);
+
+    }
+
+    if (jwtRefreshData.ip !== req.ip.toString()) {
+      throw  new HttpException("Wrong ip from token", HttpStatus.UNAUTHORIZED);
+    }
+
+    const jwtData=new JwtDataDto();
+    jwtData.role=jwtRefreshData.role;
+    jwtData.id=jwtRefreshData.id
+    jwtData.identity=jwtRefreshData.identity
+    jwtData.ext=this.getDatePlus(60*5);
+    jwtData.ip=jwtRefreshData.ip;
+    jwtData.ua=jwtRefreshData.ua
+
+    let token:string=jwt.sign(jwtData.toPlainObject(),jwtSecret);
+
+    const responseObject=new LoginInfoDto(
+      jwtData.id,
+      jwtData.identity,
+      token,
+      data.token,
+      this.getIsoDate(jwtRefreshData.ext)
+    );
+
+    return responseObject
 
   }
 
