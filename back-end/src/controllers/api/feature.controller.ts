@@ -1,91 +1,88 @@
-import { Controller, Get, Param, UseGuards } from "@nestjs/common";
-import { Crud } from "@nestjsx/crud";
-import { Feature } from "../../../entities/Feature";
-import { CategoryService } from "../../services/category/category.service";
-import { FeatureService } from "../../services/feature/feature.service";
-import { RoleCheckedGuard } from "../../mlnsc/role.checker.guard";
-import { AllowToRolesDescriptor } from "../../mlnsc/allow.to.roles.descriptor";
-import DistinctFeaturesValuesDto from "../../dtos/feature/distinct.feature.values.dto";
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Crud } from '@nestjsx/crud';
+import { Feature } from '../../../entities/Feature';
+import { CategoryService } from '../../services/category/category.service';
+import { FeatureService } from '../../services/feature/feature.service';
+import { RoleCheckedGuard } from '../../mlnsc/role.checker.guard';
+import { AllowToRolesDescriptor } from '../../mlnsc/allow.to.roles.descriptor';
+import DistinctFeaturesValuesDto from '../../dtos/feature/distinct.feature.values.dto';
 
 @Controller('api/feature')
 @Crud({
-  model:{
-    type: Feature
+  model: {
+    type: Feature,
   },
-  params:{
-    id:{
-      field:'featureId',
-      type:'number',
-      primary:true
-    }
+  params: {
+    id: {
+      field: 'featureId',
+      type: 'number',
+      primary: true,
+    },
   },
-  query:{
-    join:{
-      articleFeatures:{
-        eager:false
+  query: {
+    join: {
+      articleFeatures: {
+        eager: false,
       },
-      category:{
-        eager:true
+      category: {
+        eager: true,
       },
-      articles:{
-        eager:false
-      }
-
-    }
+      articles: {
+        eager: false,
+      },
+    },
   },
 
-  routes:{
-    only:[
-      "createOneBase",
-      "createManyBase",
-      "getManyBase",
-      "getOneBase",
-      "updateOneBase"
+  routes: {
+    only: [
+      'createOneBase',
+      'createManyBase',
+      'getManyBase',
+      'getOneBase',
+      'updateOneBase',
     ],
-    createOneBase:{
-      decorators:[
-        UseGuards(RoleCheckedGuard),
-        AllowToRolesDescriptor('administrator'),
-
-      ],
-    },
-    createManyBase:{
-      decorators:[
+    createOneBase: {
+      decorators: [
         UseGuards(RoleCheckedGuard),
         AllowToRolesDescriptor('administrator'),
       ],
     },
-    updateOneBase:{
-      decorators:[
+    createManyBase: {
+      decorators: [
         UseGuards(RoleCheckedGuard),
         AllowToRolesDescriptor('administrator'),
       ],
-
     },
-    getManyBase:{
-      decorators:[
+    updateOneBase: {
+      decorators: [
         UseGuards(RoleCheckedGuard),
-        AllowToRolesDescriptor('administrator','user'),
+        AllowToRolesDescriptor('administrator'),
+      ],
+    },
+    getManyBase: {
+      decorators: [
+        UseGuards(RoleCheckedGuard),
+        AllowToRolesDescriptor('administrator', 'user'),
       ],
     },
 
-    getOneBase:{
-      decorators:[
+    getOneBase: {
+      decorators: [
         UseGuards(RoleCheckedGuard),
-        AllowToRolesDescriptor('administrator','user'),
-      ]
-    }
-  }
+        AllowToRolesDescriptor('administrator', 'user'),
+      ],
+    },
+  },
 })
-export class FeatureController{
-  constructor(public service:FeatureService) {
-
-  }
+export class FeatureController {
+  constructor(public service: FeatureService) {}
 
   @Get('values/:categoryId')
   @UseGuards(RoleCheckedGuard)
-  @AllowToRolesDescriptor('administrator','user')
-  getDistinctValuesByCategoryId(@Param('categoryId') categoryId:number):Promise<DistinctFeaturesValuesDto>{
-    return this.service.getDistinctValuesByCategoryId(categoryId)
+  @AllowToRolesDescriptor('administrator', 'user')
+  getDistinctValuesByCategoryId(
+    @Param('categoryId') categoryId: number,
+  ): Promise<DistinctFeaturesValuesDto> {
+    return this.service.getDistinctValuesByCategoryId(categoryId);
   }
 }

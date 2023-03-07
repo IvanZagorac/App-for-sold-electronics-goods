@@ -20,6 +20,7 @@ import AdministratorDashboardCategory from "./components/AdministratorDashboardC
 import AdministratorDashboardFeature from "./components/AdministratorDashboardFeature/AdministratorDashboardFeature";
 import AdministratorDashboardArticle from "./components/AdministratorDashboardArticle/AdministratorDashboardArticle";
 import AdministratorDashboardPhoto from "./components/AdministratorDashboardPhoto/AdministratorDashboardPhoto";
+import ArticlePage from "./components/Article/ArticlePage";
 
 
 
@@ -35,6 +36,7 @@ root.render(
               <Route path="/contact/" element={<ContactPage/>}/>
               <Route path="/auth/user/register" element={<UserRegistrationPage/>}/>
               <Route path="/auth/user/login/" element={<UserLoginPage/>}/>
+              <Route path="/article/:aId" element={<ArticlePage/>}/>
               <Route path="/category/:cId/" element={<CategoryPage/>}/>
               <Route path="/user/order" element={<OrdersPage/>}/>
               <Route path="/administrator/login" element={<AdministratorLoginPage/>}/>

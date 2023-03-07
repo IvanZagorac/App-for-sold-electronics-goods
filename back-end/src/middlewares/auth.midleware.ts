@@ -35,16 +35,13 @@ export class AuthMiddleware implements NestMiddleware{
       jwtData=jwt.verify(tokenString, jwtSecret);
     } catch(e){
       throw new HttpException("Wrong token", HttpStatus.UNAUTHORIZED);
-      console.log("Glupi token")
     }
     if (!jwtData) {
       throw new HttpException("There is no available token", HttpStatus.UNAUTHORIZED);
-      console.log("Ne postoji")
     }
 
     if (jwtData.ua !== req.headers["user-agent"]) {
       throw  new HttpException("Wrong user agent from token", HttpStatus.UNAUTHORIZED);
-      console.log("ua")
     }
 
       if (jwtData.ip !== req.ip.toString()) {
@@ -58,6 +55,7 @@ export class AuthMiddleware implements NestMiddleware{
         }
       }else if(jwtData.role==="user"){
         const user=await this.userService.getById(jwtData.id);
+        console.log(user)
         if(!user){
           throw  new HttpException("User not found found", HttpStatus.UNAUTHORIZED);
         }
@@ -74,7 +72,8 @@ export class AuthMiddleware implements NestMiddleware{
       if(trenutniTimestammp>=jwtData.ext){
         throw  new HttpException("The token has expired", HttpStatus.UNAUTHORIZED);
       }
-
+      console.log(jwtData.id)
+    console.log(jwtData)
       req.token=jwtData
 
       next();
